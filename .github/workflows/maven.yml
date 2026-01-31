@@ -29,4 +29,13 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-# This is a test
+
+  snyk-scan-sast:
+    needs: test-with-JDK25
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
